@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.3/tailwind.min.css">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <title>Image Region Selection</title>
+  <meta name="description" content="Select and classify image regions">
+  <meta name="keywords" content="calssify, image, regions">
+  <style type="text/css">
+    html, body{
+      font-family: 'Roboto', sans-serif;
+    }
+    #imageCanvas {
+      position: relative;
+      z-index: 1;
+    }
+
+    #overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2
+    }
+  </style>
+  <script src="./main.js" defer></script>
+</head>
+<body class="w-full h-full flex flex-col justify-start items-center bg-gray-100">
+  <main class="flex-1 flex flex-col items-center">
+    <header class="mt-10 mb-10 text-center">
+      <h1 class="text-5xl font-extrabold">Image Region Selection</h1>
+      <h2 class="leading-8 mt-2 max-w-xl">Select and classify image regions</h2>
+    <strong id="mousePosition" class="text-sm"></strong>
+    </header>
+    <form action="#" id="image-form" enctype="multipart/form-data" class="border-2 border-green-300 hover:bg-green-100 transition-colors delay-150">
+      <input type="file" id="image-input" class="w-0 h-0" accept=".jpg,.jpeg,.png,.bmp" />
+      <label for="image-input" id="image-label" class="cursor-pointer text-gray-500 pl-16 pr-16">Click here to image upload</label>
+    </form>
+    <div id="tag-section" class="hidden w-2/3 pl-2 pr-2 mt-3">
+      <div class="w-full flex items-center justify-center">
+        <input id="input-classify" placeholder="Define a tag to current region" class="float-left mt-1 mb-1 pl-5 pr-5 pt-2 pb-2 border border-gray-300 rounded-tl-md rounded-bl-md mr-0 w-full" />
+        <button id="btn-add-tag" class="p-2.5 rounded-tr-md rounded-br-md bg-green-500 ml-0 float-left border-green-500 border-t border-b border-r hover:bg-green-400 transition transition-all delay-100 text-white uppercase text-sm"><span class="icon-tag"></span></button>
+      </div>
+    </div>
+    <div id="preview-section" class="mt-10 relative">
+      <canvas id="imageCanvas"></canvas>
+      <canvas id="overlay"></canvas>
+    </div>
+    <button class="toggle-classifier-results p-5 rounded bg-green-100 text-gray-700 hover:bg-green-300 hover:text-white delay-100 transition-all fixed top-10 right-10 font-bold shadow">View Classifiers</button>
+    <section id="classifier-section" class="absolute w-1/4 h-full bg-gray-900 shadow right-0 z-50 p-5 overflow-auto hidden">
+      <header class="flex flex-row items-center">
+        <button class="toggle-classifier-results"><span class="icon-close text-xl text-white"></span></button>
+        <h2 class="text-center tracking-widest flex-1 text-green-400 font-bold uppercase">Classifiers</h2>
+      </header>
+      <pre><code id="classifiers-result" class="text-white"></code></pre>
+    </section>
+  </main>
+</body>
+</html>
