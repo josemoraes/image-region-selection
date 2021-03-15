@@ -9,4 +9,5 @@ This repository was made with the intention of learning how to use canvas and pr
 * https://www.w3schools.com/tags/canvas_clip.asp
 
 ## Demo
+### [Click here to demo](https://josemoraes.github.io/image-region-selection/)
 ![App Demonstration](./demo.gif)
