@@ -25,6 +25,10 @@ window.onload = () => {
     Listeners.onToggleClassifierResults
   );
   Listeners.onImageChange(imageMaxLength);
+
+  cocoSsd.load().then(model => {
+    Detector.model = model
+  })
 };
 
 const DOM = {
@@ -34,6 +38,48 @@ const DOM = {
 const Classifiers = {
   current: {},
   list: [],
+};
+
+const Detector = {
+  model: null,
+  predictedObjects: [],
+  detect(canvas) {
+    if (this.model) {
+      this.model.detect(canvas).then(predictions => {
+        // Saves the detected objects
+        this.predictObjects = predictions
+
+        // Clear canvas for the predictions
+        Canvas.clearOverlay();
+
+        // Draw predictions
+        predictions.forEach(prediction => {
+          this.updateClassifiers(prediction);
+          const [x, y, width, height] = prediction.bbox;
+          Canvas.drawBoundingBox(x, y, width, height);
+        });
+      });
+    }
+  },
+  updateClassifiers(prediction) {
+    const [x, y, width, height] = prediction.bbox;
+
+    Classifiers.current = {
+      topLeft: { x: x, y: y },
+      bottomLeft: { x: x, y: y + height },
+      bottomRight: { x: x + width, y: y + height },
+      topRight: { x: x + width, y: y },
+      tag: prediction.class,
+      score: prediction.score,
+    };
+    Classifiers.list.push(Classifiers.current);
+
+    Listeners.DOMElements.classifiersResult.innerHTML = JSON.stringify(
+      Classifiers.list,
+      null,
+      "\t"
+    );
+  }
 };
 
 const Listeners = {
@@ -73,6 +119,7 @@ const Listeners = {
           Canvas.$overlay.height = Canvas.$canvas.height;
 
           Canvas.canvasContext.drawImage(img, 0, 0, img.width, img.height);
+          Detector.detect(Canvas.$canvas);
         };
         img.src = evt.target.result;
 
@@ -176,4 +223,9 @@ const Canvas = {
     );
     Canvas.overlayContext.stroke();
   },
+  drawBoundingBox(x, y, width, height) {
+    Canvas.overlayContext.beginPath();
+    Canvas.overlayContext.rect(x, y, width, height);
+    Canvas.overlayContext.stroke();
+  }
 };
