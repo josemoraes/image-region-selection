@@ -11,3 +11,7 @@ This repository was made with the intention of learning how to use canvas and pr
 ## Demo
 ### [Click here to demo](https://josemoraes.github.io/image-region-selection/)
 ![App Demonstration](./demo.gif)
+
+# Extra info
+* **Author**: José Carlos de Moraes Filho
+* **LinkedIn**: https://www.linkedin.com/in/josecarlosfilho/
